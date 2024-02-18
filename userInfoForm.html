@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Cloudflare AI Example</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+      @import url('https://unpkg.com/normalize.css');
+      html {
+        font-family: 'Roboto Mono', monospace;
+        line-height: 1.5;
+        & * { font-size: 16px }
+      }
+
+      div#content {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      div#header { 
+        align-items: center;
+        gap: 20px;
+        display: flex; 
+        justify-content: center;
+      }
+
+      div#response {
+        position: fixed;
+        top: 33%;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="content">
+      <div id="header">
+        <h1>Cloudflare AI - Blocking</h1>
+        <p><a href="/">(Streaming)</a></p>
+      </div>
+
+      <div id="answers"></div>
+
+      <div class="container text-center">
+        <div class="row align-items-center">
+          <div style="background-color:red" class="col-5">
+            Hello
+          </div>
+          <div class="col-2">
+            <img style="width: 100%;" src="./Toucan.png" />
+          </div>
+          <div style="background-color:red" class="col-5">
+            Hello
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Form -->
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Background Info</h5>
+          <h6 class="card-subtitle mb-2 text-body-secondary">About you and your destination of interest</h6>
+          <form id="query-form" class="row g-3">
+            <div class="col-6">
+
+              <div id="ageGroupDropdown">
+                <label for="ageCategory">Age Category</label>
+                <select id="ageCategory" name="ageCategory"  class="form-select" aria-label="Default select example">
+                  <option value="0 - 2">Baby (0 - 2)</option>
+                  <option value="3 - 16">Children (3 - 16)</option>
+                  <option value="17 - 30">Young Adults (17 -30)</option>
+                  <option value="31 - 45">Middle-aged Adults (31 - 45)</option>
+                  <option value="Above 45">Old Adults (Above 45)</option>
+                </select>
+              </div>
+
+
+            </div>
+            <div class="col-6">
+              <label for="inputPassword4" class="form-label">Destination of Interest</label>
+              <input type="country" class="form-control" id="country">
+            </div>
+            <div class="col-12">
+              <button style="width:100%;" type="submit" class="btn btn-danger">Sign in</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    <script>
+      const submitForm = async (event) => {
+        ageQuestion = document.querySelector("#ageGroupDropdown select").value
+        countryQuestion = document.getElementById("country").value
+
+        localStorage.setItem("country", country);
+
+        event.preventDefault()
+
+        // post json to /
+        const response = await fetch("/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            query: [ageQuestion, countryQuestion]
+          })
+        })
+        // window.location.href = '../test.html';
+
+        const answer = await response.text()
+        document.querySelector("div#answers").innerHTML = answer
+
+      }
+
+      document.querySelector("form#query-form").addEventListener("submit", submitForm)
+    </script>
+  </body>
+</html>
