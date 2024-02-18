@@ -27,6 +27,7 @@ export default {
 }*/
 
 import blocking from './blocking.html'
+import streaming from './streaming.html'
 
 const app = new Hono()
 
@@ -38,7 +39,7 @@ app.get('/b', c=>{
   return c.html(blocking)
 })
 
-app.get("/streamstream", async => {
+app.get("/stream", async => {
  const ai = new Ai(c.env.AI)
   
   const query = c.req.query("query") //?query = Hey!!! How you doing?
@@ -78,7 +79,7 @@ app.post('/', async c => {
 
   const aiResponse = await ai.run(
     '@cf/meta/llama-2-7b-chat-int8', //check if this is right
-    {messages}
+    {messages} //might need to change later
   ) // {Answer}
 
   return c.text(aiResponse.response)
