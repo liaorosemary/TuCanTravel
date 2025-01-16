@@ -16,7 +16,7 @@ export default function Home () {
         <div id="about" className="container-fluid preview-component d-flex justify-content-between pt-5">
           <div className="col"></div>
           <div className="col-10 col-lg-8 col-xl-7 col-xxl-6">
-            <h2 className="py-3">About CHANO</h2>
+            <h2 className="py-3">About</h2>
             <hr />
             <Link to="/about" className="btn mt-5 btn-warning text-light">Learn more</Link>
           </div>
@@ -25,7 +25,7 @@ export default function Home () {
         <div id="events" className="container-fluid preview-component d-flex justify-content-between">
           <div className="col"></div>
           <div className="col-10 col-lg-8 col-xl-7 col-xxl-6">
-            <h2 className="py-3">CHANO Events</h2>
+            <h2 className="py-3">Events</h2>
             <hr />
             <Link to="/events" className="btn mt-5 btn-dark text-light">See more</Link>
           </div>
